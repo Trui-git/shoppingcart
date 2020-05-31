@@ -1,0 +1,126 @@
+
+
+// clean up the index product listings - design your own card
+
+// to go to the product page you need an URL like:
+// http://localhost/ProjectSample/product.php?productID=13
+
+<a href="create_items.php?id="<?php echo $_GET['id'];?>create</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Sample index.php using the JSON data
+<div id="productLightBox">
+    <div id="leftLightBox"></div>
+    <div id="rightLightBox">
+        <div id="rightTopLightBox">
+            <h1 id="prodHead"></h1>
+            <h2 id="prodPrice" class="purple"></h2>
+            <p id="prodDesc"></p>
+            <div class="middle">
+                <div class="colorBox"></div>
+                <div class="colorBox"></div>
+                <div class="colorBox"></div>
+                <div class="colorBox"></div>
+                <div class="colorBox"></div>
+            </div>
+            <div id="sizeDiv">
+                <?php if(isset($_SESSION['sessionUserID'])) 
+                    {
+                        echo "<input type='radio' name='size' value='Sml' onchange='EnableAddToCart();'>Sml</input>";
+                        echo "<input type='radio' name='size' value='Med' onchange='EnableAddToCart();'>Med</input>";
+                        echo "<input type='radio' name='size' value='Large' onchange='EnableAddToCart();'>Lrg</input>";
+                        echo "<input type='radio' name='size' value='XL' onchange='EnableAddToCart();'>XL</input>";
+                        echo "<input type='radio' name='size' value='XXL' onchange='EnableAddToCart();'>XXL</input>";
+                    }
+                    else
+                    {
+                        echo "<input type='radio' name='size' value='Sml' disabled>Sml</input>";
+                        echo "<input type='radio' name='size' value='Med' disabled>Med</input>";
+                        echo "<input type='radio' name='size' value='Large' disabled>Lrg</input>";
+                        echo "<input type='radio' name='size' value='XL' disabled>XL</input>";
+                        echo "<input type='radio' name='size' value='XXL'disabled>XXL</input>";
+                    }
+                ?>
+            </div>
+        </div>
+        <div class="history">
+            <span class="softBlack">[ recent history ]</span><br>
+            <div class="historyBox"></div>
+            <div class="historyBox"></div>
+            <div class="historyBox"></div>
+            <div class="historyBox"></div>
+        </div>
+    </div>
+    <div id="bottomLightBox">
+        <div class="cartUI inStock">in stock</div>
+        <div class="cartUI"><a href="cart.php" title="show cart">view bag</a></div>
+        <div class="cartUI">
+            <form action="<?php echo ($_SERVER["PHP_SELF"]); ?>" method="POST">
+                <input id="qty" type="text" value='1' name="qty" size="2">
+                <input id="addToCart" type='submit' name='addToCart' value='add to my bag' disabled='true'>
+                <input type="hidden" value="" name="singleProduct" id="hiddenProdID">
+            </form>
+        </div>
+    </div> 
+</div>
+<div id="lightBackground" onclick="HideProduct();"></div>
+<?php require('views/nav.php'); ?>
+<div>
+    <h1 class="middle">We got you !naked</h1>
+    <?php if($prod_count > 0) { ?>
+        <?php foreach($products as $product) : ?>
+        <div class="productContainer">
+            <div class="cardTop">
+                <img src='<?php echo 'images/products/img1_' . $product['productID'] . '.jpg' ?>' alt="product">
+            </div>
+            <div class="cardMiddle">
+                <h2><?php echo $product['productName']; ?></h2>
+                <h3 class="purple"><?php echo '$' . $product['price']; ?></h3>
+                <p><?php echo $product['productDesc']; ?></p>
+            </div>
+            <div class="cardBottom">
+            <form name="prodForm" action="<?php echo ($_SERVER["PHP_SELF"]); ?>" method="POST">
+                <a id="showBtn" onclick='ShowProduct(<?php echo get_product_info($product['productID']); ?>)' 
+                    href="#"><span class="fa fa-eye" aria-hidden="true"></span> show 
+                </a>
+            </form>
+            </div>
+        </div>
+        <?php endforeach; ?>
+    <?php } ?>
+</div>
+<?php
+    require('views/footer.php');
+?>
