@@ -42,11 +42,11 @@
                     //    echo '<button type="submit" class="logoutbtn">Logout</button>';
                     //echo '</div>';   
                     --> 
-                <?php else :?>            
+                <?php else :?>           
+                    <h1>Login</h1> 
                     <label for="psw"><b>Password</b></label>
                     <input type="text" placeholder="Enter User Name" name="usernameLogin" required>
                     <label for="username"><b>User Name</b></label>
-                    <h1>Login</h1>
                     <input type="password" placeholder="Enter Password" name="passwordLogin" required>  
                     <div class="clearfix">
                         <button type="button" onclick="HideProduct()" class="cancelbtn">Cancel</button>
