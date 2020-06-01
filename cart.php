@@ -3,20 +3,14 @@
     require('views/header.php');
     $item_count = 0;
 
-    // check deletd item data  
-    if(isset($_POST['delete'])){
+    // check if button increase or decrease pressed 
+    if(isset($_POST['increase']) || 
+        isset($_POST['decrease']) ||
+        isset($_POST['delete'])){
 
         $productID = 0;
         $qty = 0;
         $cartID = 0;
-
-        // it post a name/value paar
-        $data = $_POST['delete'];
-        foreach($data as $x => $x_value)
-        {
-            $productID = $x;
-            $qty = $x_value;
-        }
 
         if(isset($_POST['cartID'])){
             // it post a name/value paar
@@ -26,7 +20,39 @@
                 $cartID = $x;
             }
         }
-        
+
+
+        if(isset($_POST['increase'])){
+            $data = $_POST['increase'];
+            foreach($data as $x => $x_value)
+            {
+                $productID = $x;
+            }
+            add_item(1, $productID, $cartID );
+        }
+
+       
+        if(isset($_POST['decrease'])){
+            $data = $_POST['decrease'];
+            foreach($data as $x => $x_value)
+            {
+                $productID = $x;
+            }
+            delete_item(1, $productID, $cartID );
+        }
+
+        if(isset($_POST['delete'])){
+            $data = $_POST['delete'];
+            foreach($data as $x => $x_value)
+            {
+                $productID = $x;
+                $qty = $x_value;
+            }
+            delete_item($qty, $productID, $cartID );
+        }
+
+
+        /*
         // not able to post a name/value paar , don't know why, loop throught array
         if(isset($_POST['qty'])){
             // it post a item/value paar
@@ -40,8 +66,9 @@
                 }
             }
         }
-        delete_item($qty, $productID, $cartID );
+        */        
     }
+    
 
     // userID
     $total_price = 0;
@@ -92,30 +119,56 @@
                                     <th scope="col" class="border-1 cart-head th-lg">
                                         <div class="py-2 text-uppercase">Quantity</div>
                                     </th>
+                                    <th scope="col" class="border-1 cart-head th-lg">
+                                        <div class="py-2 text-uppercase">Modify</div>
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php if($item_count > 0) { ?>
                                     <?php foreach($items as $item) : ?>
-                                        <tr>
-                                            <th scope="row" class="border-1">
-                                                <div class="p-2">
-                                                    <img class="cartImg img-fluid rounded shadow-sm" src="<?php echo 'assets/images/' . $item['imageURL']; ?>" alt="product">
-                                                </div>
-                                            </th>
-                                            <td class="border-1 align-middle"><strong><?php echo $item['productName']; ?></strong></td>
-                                            <td class="border-1 align-middle"><strong><?php echo '$'.number_format($item['price'], 2); ?></strong></td>
-                                            <td class="border-1 align-middle th-lg">
-                                                <div class="cart-button">
+                                        <?php if($item["qty"] > 0) { ?>
+                                            <tr>
+                                                <th scope="row" class="border-1">
+                                                    <div class="p-2">
+                                                        <img class="cartImg img-fluid rounded shadow-sm" src="<?php echo 'assets/images/' . $item['imageURL']; ?>" alt="product">
+                                                    </div>
+                                                </th>
+                                                <td class="border-1 align-middle"><strong><?php echo $item['productName']; ?></strong></td>
+                                                <td class="border-1 align-middle">
+                                                    <strong><?php echo '$'.number_format($item['price'], 2); ?></strong> </br></br>
+                                                    <strong>sub total: <?php echo '$'.number_format($item['price']*$item['qty'], 2); ?>
+                                                </td>
+                                                <td class="border-1 align-middle th-lg">
+                                                    <div class="cart-button">
 
-                                                    <input type="hidden" name="cartID[<?php echo $item["cartID"];?>]" value="<?php echo $item["qty"]; ?>">
+                                                        <input type="hidden" 
+                                                            name="cartID[<?php echo $item["cartID"];?>]" 
+                                                            value="<?php echo $item["qty"]; ?>">
 
-                                                    <input id="qty" type="number"  name="qty[<?php echo $item['productID']; ?>]" value="<?php echo $item['qty']; ?>" min="0">
+                                                        <button class="btn btn-default toggle-button" 
+                                                            type="submit" 
+                                                            name="decrease[<?php echo $item["productID"];?>]" 
+                                                            value ="<?php echo $item["qty"];?>">-</button>
 
-                                                    <button class="btn btn-primary" type="submit" name="delete[<?php echo $item["productID"];?>]" value ="<?php echo $item["qty"];?>">Delete</button>
-                                                </div>
-                                            </td>
-                                        <tr>
+                                                        <input id="qty" type="text"  
+                                                            name="qty[<?php echo $item['productID']; ?>]" 
+                                                            value="<?php echo $item['qty']; ?>" readonly>
+
+                                                        <button class="btn btn-default toggle-button" 
+                                                            type="submit" 
+                                                            name="increase[<?php echo $item["productID"];?>]" 
+                                                            value ="<?php echo $item["qty"];?>">+</button>
+
+                                                    </div>
+                                                </td>
+                                                <td class="border-1 align-middle">
+                                                    <button class="btn btn-primary" type="submit" 
+                                                    name="delete[<?php echo $item["productID"];?>]" 
+                                                    value ="<?php echo $item["qty"];?>">Delete</button>
+                                                </td>
+                                            <tr>
+                                        <?php } ?>  <!-- end of if($item["qty"] > 0) -->    
                                     <?php endforeach; ?>
                                 <?php } ?> <!-- end of if($item_count > 0) -->  
 
@@ -125,7 +178,7 @@
                                     <td class="border-1 align-middle"><strong><?php echo '$'.number_format($total_price, 2); ?></strong></td>
                                     <td class="border-1 align-middle">                                    
                                         <div class="cart-button">
-                                            <button class="btn btn-warning" type="submit" name="" value ="">Check Out</button>
+                                            <button class="btn btn-warning checkout" type="submit" name="" value ="">Check Out</button>
                                         </div>                                    
                                     </td>
                                 <tr>
