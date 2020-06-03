@@ -45,9 +45,9 @@
                 <?php else :?>           
                     <h1>Login</h1> 
                     <label for="username"><b>User Name</b></label>
-                    <input type="password" placeholder="Enter Password" name="passwordLogin" required>  
-                    <label for="psw"><b>Password</b></label>
                     <input type="text" placeholder="Enter User Name" name="usernameLogin" required>
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="passwordLogin" required>  
                     <div class="clearfix">
                         <button type="button" onclick="HideProduct()" class="cancelbtn">Cancel</button>
                         <button type="submit" class="loginbtn">Login</button>
