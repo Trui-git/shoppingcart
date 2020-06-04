@@ -60,3 +60,17 @@ function HideProduct()
         opacity: 0
     }, 420, function(){$('#lightBackground').css('display', 'none');});
 }
+
+// if the page refreshed, keep in the same scroll position good for the cart page
+// after add more item in cart.php, page refreshed, the scroll position 
+// stay at same position as last time clicked 
+// copy code snippet from https://stackoverflow.com/questions/17642872/refresh-page-and-keep-scroll-position
+
+document.addEventListener("DOMContentLoaded", function(event) { 
+    var scrollpos = localStorage.getItem('scrollpos');
+    if (scrollpos) window.scrollTo(0, scrollpos);
+});
+
+window.onbeforeunload = function(e) {
+    localStorage.setItem('scrollpos', window.scrollY);
+};
