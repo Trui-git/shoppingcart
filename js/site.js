@@ -47,12 +47,12 @@ function HideProduct()
 {
     $('#signup').animate(
         {
-            top: "-100%"
+            top: "-150%"
         }, "slow", 'swing'); 
 
     $('#loginForm').animate(
         {
-            top: "-100%"
+            top: "-150%"
         }, "slow", 'swing'); 
 
     $('#lightBackground').animate(
