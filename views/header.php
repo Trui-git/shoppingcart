@@ -1,8 +1,6 @@
 <?php
     require('includes/package.php');
     session_start(); // starts our sessions
-    //$_SESSION['login'] = "login"; // used only to display login and logput in menu bar
-    //$_SESSION['isLoggedIn'] = false; // used for display login and logout 
 ?>
 
 <!DOCTYPE html>

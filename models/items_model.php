@@ -82,6 +82,9 @@
         $query = "SELECT sum(pr.price*it.qty) AS total FROM tblitems AS it JOIN tblproduct AS pr WHERE it.productID = pr.productID AND cartID = '$cartID' GROUP BY it.cartID";
         $result = $db -> query($query);
         $result = $result->fetch();
+        if (!$result) {
+            $result[0] = 0;
+        }
         return $result[0];
     }
 

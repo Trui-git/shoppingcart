@@ -8,9 +8,15 @@
         $loggedIn = $loggedIn->fetch();
 		if($loggedIn){
             // already registered user
+            echo '<script>alert("Welcome, you are already registered, please login")</script>'; 
         }
         else{
             create_user($user, $pass, $email);
+            $loggedIn = login($user, $pass);
+            $loggedIn = $loggedIn->fetch();
+            $_SESSION['isLoggedIn'] = true;
+            $_SESSION['sessionUserID'] = $loggedIn['userID'];
+            $_SESSION['sessionUserName'] = $loggedIn['username'];
         }    
     }
 ?>
@@ -29,11 +35,6 @@
 
             <label for="psw"><b>Password</b></label>
             <input type="password" placeholder="Enter Password" name="password" required>
-
-            
-            <label>
-                <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Remember me
-            </label>
 
             <p>By creating an account you agree to our <a href="#" style="color:dodgerblue">Terms & Privacy</a>.</p>
 

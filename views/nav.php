@@ -13,7 +13,6 @@
     
     if(isset($_POST['logout'])){
         $_SESSION['sessionUserID'] = "";
-        $_SESSION['login'] = "login"; 
         $_SESSION['isLoggedIn'] = false;
     }
     

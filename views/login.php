@@ -6,7 +6,6 @@
         $loggedIn = login($user, $pass);
         $loggedIn = $loggedIn->fetch();
 		if($loggedIn){
-            $_SESSION['login'] = "logout"; 
             $_SESSION['isLoggedIn'] = true;
             $_SESSION['sessionUserID'] = $loggedIn['userID'];
             $_SESSION['sessionUserName'] = $loggedIn['username'];
@@ -16,7 +15,6 @@
     if(isset($_POST['logout'])){
         $_SESSION['sessionUserID'] = "";
         $_SESSION['sessionUserName'] = "";
-        $_SESSION['login'] = "login"; 
         $_SESSION['isLoggedIn'] = false;
     }
 
